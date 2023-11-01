@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Reflection.Metadata;
 using Microsoft.Xna.Framework.Content;
+using System.Numerics;
 
 namespace Project3.Scripts.Core
 {
@@ -15,6 +16,7 @@ namespace Project3.Scripts.Core
         private Animator? animator;
 
         public List<Texture2D> Texture => texture;
+        public Vector2 TextureSize => new Vector2(Texture[0].Width, Texture[0].Height);
 
         public Renderer()
         {

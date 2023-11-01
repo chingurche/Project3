@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Project3.Scripts.Core;
 using Project3.Scripts.Objects.Apophises;
-using SharpDX.Direct3D9;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
@@ -13,7 +12,6 @@ namespace Project3
 {
     public class Game1 : Game
     {
-        private Light light;
         private Hierarchy hierarchy;
         private Camera camera;
 
@@ -74,15 +72,8 @@ namespace Project3
                 hierarchy.AddObject(obj);
             }
 
-            if (keyboard.IsKeyDown(Keys.A))
-            {
-                Camera.Transform.MovePosition(-500f * gameTime.ElapsedGameTime.Milliseconds / 1000, 0);
-            }
-
-            if (keyboard.IsKeyDown(Keys.D))
-            {
-                Camera.Transform.MovePosition(500f * gameTime.ElapsedGameTime.Milliseconds / 1000, 0);
-            }
+            Camera.Transform.MovePosition(Vector2.UnitX * AxisInput.GetAxisX(keyboard) * 500f * gameTime.ElapsedGameTime.Milliseconds / 1000);
+            Camera.Transform.MovePosition(Vector2.UnitY * AxisInput.GetAxisY(keyboard) * 500f * gameTime.ElapsedGameTime.Milliseconds / 1000);
 
             base.Update(gameTime);
         }
@@ -92,12 +83,12 @@ namespace Project3
             GraphicsDevice.Clear(Color.DarkGreen);
 
             // TODO: Add your drawing code here
-            _spriteBatch.Begin();
+            _spriteBatch.Begin(0, null, SamplerState.PointClamp);
             foreach (var obj in hierarchy.Objects)
             {
+                var rendererPosition = camera.GetRelativePosition(obj.Transform.GetPositionInPixels());
                 Rectangle rct = new Rectangle(
-                    (int) (obj.Transform.GetPositionInPixels().X - Camera.Transform.Position.X),
-                    (int) (obj.Transform.GetPositionInPixels().Y - Camera.Transform.Position.Y),
+                    (int) rendererPosition.X, (int) rendererPosition.Y,
                     (int) obj.GetScaleInPixels().X, (int) obj.GetScaleInPixels().Y);
                 _spriteBatch.Draw(obj.Renderer.Texture[0], rct, Color.White);
             }

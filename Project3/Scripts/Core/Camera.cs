@@ -1,4 +1,6 @@
-﻿namespace Project3.Scripts.Core
+﻿using Microsoft.Xna.Framework;
+
+namespace Project3.Scripts.Core
 {
     internal class Camera
     {
@@ -27,6 +29,11 @@
                 instance = new Camera();
             }
             return instance;
+        }
+
+        public Vector2 GetRelativePosition(Vector2 position)
+        {
+            return position - transform.Position;
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Project3.Scripts.Objects.Apophises
 {
-    internal abstract class Apophis : GameObject
+    internal abstract class Apophis : Component
     {
         public ApophisData apophisData;
 
